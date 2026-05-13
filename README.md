@@ -33,88 +33,84 @@ All outputs go to `recommendations/` directory. Implementation happens in main `
 
 ---
 
-## Setup for New Users
+## Getting Started
 
 ### Prerequisites
 - [Claude Code](https://claude.ai/code) installed
 - Git installed
-- Access to Make-It.ai repositories
+- Access to Make-It.ai GitHub repositories
 
-### Step 1: Clone Both Projects
+### Step-by-Step Setup
 
-The marketing project **reads from the main project**, so you need both:
+#### 1. Clone Both Projects
+
+The marketing project reads from the main project, so you need both:
 
 ```bash
-# Choose a parent directory (e.g., your home directory)
 cd ~
 
-# Clone main development project
+# Clone main project
 git clone https://github.com/gal-maker/make-it.git
 
 # Clone marketing project
-git clone https://github.com/naltony/make-it-marketing.git
-# or if under organization:
-# git clone https://github.com/gal-maker/make-it-marketing.git
+git clone https://github.com/gal-maker/make-it-marketing.git
 ```
 
-**Important**: Both projects must be sibling directories:
+**Required directory structure** (sibling directories):
 ```
 /Users/[your-username]/
 ├── make-it/              # Main dev project
-└── make-it-marketing/    # Marketing project (this)
+└── make-it-marketing/    # Marketing project (this one)
 ```
 
-### Step 2: Fix Symlink for Your System
+#### 2. Fix Symlink for Your System
 
-The product context is shared via symlink. Recreate it for your system:
+The product context is shared between projects via symlink. The symlink uses a relative path, but you may need to verify it works:
 
 ```bash
+# Check if symlink works
+ls -la ~/make-it/.agents/product-marketing-context.md
+
+# If broken, recreate it
 cd ~/make-it/.agents
-rm product-marketing-context.md
+rm -f product-marketing-context.md
 ln -s ../../make-it-marketing/.agents/product-marketing-context.md product-marketing-context.md
 ```
 
-Verify it works:
-```bash
-ls -la ~/make-it/.agents/
-# Should show: product-marketing-context.md -> ../../make-it-marketing/.agents/product-marketing-context.md
-```
-
-### Step 3: Open Marketing Project in Claude Code
+#### 3. Open Marketing Project in Claude Code
 
 ```bash
 cd ~/make-it-marketing
-# Open in Claude Code (exact command depends on your setup)
+# Then open Claude Code in this directory
 ```
 
-### Step 4: Create Product Marketing Context
+#### 4. Create Product Marketing Context
 
 In Claude Code, run:
 ```
 /product-marketing-context
 ```
 
-This skill will:
-1. Read main project's landing pages, blog, README
-2. Auto-draft product/audience/positioning context
-3. Save to `.agents/product-marketing-context.md`
-4. Available in both projects via symlink
+This will:
+- Read main project's landing pages, blog, README
+- Auto-draft product/audience/positioning context
+- Save to `.agents/product-marketing-context.md`
+- Become available in both projects via symlink
 
 Review and refine the generated context.
 
-### Step 5: Test Your Setup
+#### 5. Try Your First Analysis
 
-Try your first marketing analysis:
 ```
 /page-cro
 ```
 
 This will:
-1. Read `../make-it/webapp/src/components/HomePage.tsx`
-2. Generate CRO recommendations
-3. Save to `recommendations/homepage-cro-[date].md`
+- Read `../make-it/webapp/src/components/HomePage.tsx`
+- Analyze conversion optimization opportunities
+- Generate `recommendations/homepage-cro-[date].md`
 
-### Step 6: Implement a Recommendation
+#### 6. Implement Recommendations
 
 Switch to main project:
 ```bash
@@ -126,49 +122,33 @@ In Claude Code:
 /view-marketing-recommendations
 ```
 
-Read a recommendation, then:
+Read the recommendation, then implement:
 ```
-/execute "Implement [specific changes from recommendation]"
+/execute "Update homepage hero section per homepage-cro-2026-05-13.md"
 ```
 
 ---
 
-## Setup for Project Creator (Already Done)
+## Daily Usage
 
-If you're setting this up from scratch (not cloning):
+Once set up, the workflow is simple:
 
-1. Create marketing project directory
-2. Install skills from external package
-3. Configure CLAUDE.md and documentation
-4. Create symlink in main project
-5. Push both projects to GitHub
+**Analyze in marketing project:**
+```bash
+cd ~/make-it-marketing
+/page-cro
+/copywriting "homepage hero section"
+/content-strategy
+```
 
-See [recommendations/SETUP-SUMMARY.md](recommendations/SETUP-SUMMARY.md) for full setup record.
+**Implement in main project:**
+```bash
+cd ~/make-it
+/view-marketing-recommendations
+/execute
+```
 
----
-
-## First-Time Usage (After Setup)
-
-1. **Switch to this project:**
-   ```bash
-   cd ~/make-it-marketing
-   ```
-
-2. **Run a marketing skill:**
-   ```
-   /page-cro
-   /copywriting "homepage hero section"
-   /content-strategy
-   ```
-
-3. **Implement in main project:**
-   ```bash
-   cd ~/make-it
-   /view-marketing-recommendations
-   /execute
-   ```
-
-See [QUICKSTART.md](QUICKSTART.md) for more examples.
+See [QUICKSTART.md](QUICKSTART.md) for more examples and workflows.
 
 ---
 
